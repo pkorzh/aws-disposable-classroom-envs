@@ -1,0 +1,46 @@
+Parameters:
+  KeyName:
+    Description: 'EC2 key pair'
+    Type: 'String'
+    Default: '{{ keyName }}'
+
+  HostedZone:
+    Type: 'String'
+    Description: 'DNS name'
+    Default: '{{ hostedZone }}'
+
+Resources:
+{{#each ec2s}}
+  EC2_{{@index}}:
+    Type: "AWS::EC2::Instance"
+    Properties:
+      ImageId: '{{ ami }}'
+      InstanceType: '{{ instanceType }}'
+      KeyName: !Ref 'KeyName'
+      SecurityGroups: 
+        - !Ref 'WebServerSecurityGroup'
+
+  RecordSet_{{@index}}:
+    Type: "AWS::Route53::RecordSet"
+    Properties:
+      HostedZoneName: !Join ['', [!Ref 'HostedZone', '.']]
+      Name: !Join ['', [!Ref 'EC2_{{@index}}', '.', !Ref 'HostedZone', '.']]
+      Type: 'A'
+      TTL: 900
+      ResourceRecords:
+        - !GetAtt ['EC2_{{@index}}', 'PublicIp']
+{{/each}}
+
+  WebServerSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: 'Allow HTTP & SSH'
+      SecurityGroupIngress:
+        - IpProtocol: 'tcp'
+          FromPort: '80'
+          ToPort: '80'
+          CidrIp: '0.0.0.0/0'
+        - IpProtocol: 'tcp'
+          FromPort: '22'
+          ToPort: '22'
+          CidrIp: '0.0.0.0/0'

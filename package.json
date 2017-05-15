@@ -1,0 +1,27 @@
+{
+  "name": "aws-disposable-classroom-envs",
+  "version": "1.0.0",
+  "description": "Automate creation and destruction of a AWS instances for a training class",
+  "main": "cli.js",
+  "bin": {
+    "awsd": "./cli.js"
+  },
+  "dependencies": {
+    "handlebars": "^4.0.8",
+    "yargs": "^8.0.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pkorzh/aws-disposable-classroom-envs.git"
+  },
+  "author": "Platon Korzh <platon@korzh.io>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pkorzh/aws-disposable-classroom-envs/issues"
+  },
+  "homepage": "https://github.com/pkorzh/aws-disposable-classroom-envs#readme"
+}
