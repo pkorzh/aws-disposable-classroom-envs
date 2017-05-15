@@ -43,7 +43,7 @@ exports.builder = {
 };
 
 exports.handler = function (argv) {
-	var template = Handlebars.compile(getTemplate(argv.add_to_slot));
+	var template = Handlebars.compile(getTemplate());
 
 	var result = template({
 		hostedZone: argv['hosted-zone'],
@@ -56,6 +56,6 @@ exports.handler = function (argv) {
 	console.log(result);
 }
 
-function getTemplate(add_to_slot) {
+function getTemplate() {
 	return fs.readFileSync(path.join(__dirname, 'cfn-spawn.yaml'), 'utf8');
 }
